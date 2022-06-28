@@ -12,21 +12,18 @@
 %\typeout{Document Class `uaztesis' }
 
 % Uso de paquetes 
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+%\usepackage[spanish,activeacute]{babel}
+%\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc} 
+%\RequirePackage[spanish]{babel}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{csquotes}
 \usepackage{amssymb,amsmath,amsfonts}
 \usepackage{color,graphicx,curves}
 \usepackage{epsfig}
 \usepackage{times}
 \usepackage{listings}
 \renewcommand{\ttdefault}{cmtt}    
-\usepackage[
-backend=biber,
-style=bwl-FU,
-sorting=nyt
-]{biblatex}
-\addbibresource{Referencias.bib}
-
 
 %=============================================================================
 % Tamaño de papel
@@ -97,6 +94,11 @@ sorting=nyt
 % LISTAS
 %=============================================================================
 %  ENUMERATE
+%  La numeración se hace con 4 contadores: enumi, enumii, enumiii
+%  y enumiv, donde enumN controla la numeración del 
+%  nivel Nth. La etiqueta es generada por las instrucciones 
+%  \labelenumi... \labelenumiv.  La expansión de 
+%  \p@enumN\theenumN define la salida de una instrucción \ref
 %=============================================================================
 \def\labelenumi{\arabic{enumi}.}
 \def\theenumi{\arabic{enumi}}
@@ -112,6 +114,9 @@ sorting=nyt
 
 %=============================================================================
 % ITEMIZE
+% La lista con símbolos es controlada por 4 instrucciones:
+% \labelitemi, \labelitemii, \labelitemiii, y \labelitemiv, 
+% Las cuales definen las etiquetas de varios niveles. 
 %=============================================================================
 \def\labelitemi{$\bullet$}
 \def\labelitemii{\bface --}
@@ -191,7 +196,7 @@ sorting=nyt
 \tabcolsep 6pt       % Half the space between columns in a tabular environment.
 \arrayrulewidth .4pt % Width of rules in array and tabular environment.
 \doublerulesep 2pt   % Space between adjacent rules in array or tabular env.
-
+\AtBeginEnvironment{tabular}{\singlespace}
 %=============================================================================
 % TABBING
 %=============================================================================
@@ -407,6 +412,51 @@ sorting=nyt
   \newpage
 }}
 
+%=============================================================================
+% REFERENCIAS
+%=============================================================================
+% The thebibliography environment executes the following commands:
+%
+%  o start a new 'chapter' with BIBLIOGRAPHY as the heading
+%  o produce a separator page for the bibliography
+%
+%  \def\newblock{\hskip .11em plus .33em minus -.07em} --
+%      Defines the `closed' format, where the blocks (major units of
+%      information) of an entry run together.
+%
+%  \sloppy  -- Used because it's rather hard to do line breaks in
+%      bibliographies,
+%
+%  \sfcode`\.=1000\relax --
+%      Causes a `.' (period) not to produce an end-of-sentence space.
+%=============================================================================
+ %\altbibtitle
+%   The default title for the References chapter is ``LIST OF REFERENCES''
+%   Since some people prefer ``BIBLIOGRAPHY'', the command
+%   \altbibtitle has been added to change the chapter title.
+%   This command does nothing more than change REFERENCES to BIBLIOGRAPHY
+%============================================================================
+\def\@bibchaptitle{Referencias}
+%\def\altbibtitle{\def\@bibchaptitle{Bibliografía}}
+\def\thebibliography#1{
+  %\separatorpage{\@bibchaptitle}
+  \global\@bibpresenttrue
+  \chapter*{\@bibchaptitle\markboth{\@bibchaptitle}{\@bibchaptitle}}
+  \addcontentsline{toc}{chapter}{\@bibchaptitle}
+  \vspace{0.375in}    % added to match 4 line requirement
+  \interlinepenalty=10000 % added to prevent breaking of bib entries
+  \singlespace\list
+  {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+    \advance\leftmargin\labelsep \usecounter{enumi}}
+  \def\newblock{\hskip .11em plus .33em minus -.07em}
+  \sloppy
+  \sfcode`\.=1000\relax}
+\let\endthebibliography=\endlist
+
+%=============================================================================
+% \def\@biblabel#1{[#1]\hfill}  % Produces the label for \bibitem[...]
+% \def\@cite#1{[#1]}            % Produces the output of the \cite command.
+%=============================================================================
 
 %=============================================================================
 %   EL AMBIENTE ÍNDICE
@@ -503,7 +553,9 @@ sorting=nyt
 \long\def\@makecaption#1#2{
   \vskip 10pt
   \singlespace\centering
-  #1\ \ #2}
+  #1\ \ #2
+  \vskip 10pt    
+}
 
 %=============================================================================
 % ORIGINAL \@makecaption - Centering OR Flushleft if long.
@@ -599,10 +651,28 @@ sorting=nyt
 %=============================================================================
 % CODE 
 %=============================================================================
-
+%\newcounter{code}[chapter]
+%\def\thecode{\thechapter.\@arabic\c@code}
+%\def\fps@code{tbp}
+%\def\ftype@code{2}
+%\def\ext@code{lot}
+%\def\fnum@code{\small{Código} \thecode}
+%\def\code{\@float{code}}
+%\let\endcode\end@float
+%\@namedef{code*}{\@dblfloat{code}}
+%\@namedef{endcode*}{\end@dblfloat}
 \renewcommand{\lstlistingname}{Código}
 %=============================================================================
 % PÁGINA DE PRESENTACIÓN
+%
+%   - define \title{} \author{} \date{}
+%   - The default degree is ``Doctor of Philosophy''
+%     Degree can be changed using the command \degree{}
+%   - for a masters project report, specify \project
+%   - for a preliminary report, specify \prelim
+%   - The default department is ``Electrical Engineering''
+%     The department can be changed using the command \department{}
+%   - once the above are defined, use \maketitle to generate the titlepage
 %=============================================================================
 \def\advisortitle#1{\gdef\@advisortitle{#1}}
 \def\advisorname#1{\gdef\@advisorname{#1}}
@@ -615,16 +685,34 @@ sorting=nyt
 \newcommand\@thesistitlemedskip{0.25in}
 \newcommand\@thesistitlebigskip{0.6in}
 \newcommand{\degree}[1]{\gdef\@degree{#1}}
+\newcommand{\report}{\gdef\@doctype{Reporte de Trabajo}}
 \newcommand{\thesis}{\gdef\@doctype{Tesis de Licenciatura}}
-\newcommand{\thesism}{\gdef\@doctype{Tesis de Maestría}\gdef\@degree{Maestro en Ingeniería para la Innovación Tecnológica}}
-\newcommand{\thesisd}{\gdef\@doctype{Tesis de Doctorado}\gdef\@degree{Doctor en Ingeniería para la Innovación Tecnológica}}
+\newcommand{\thesism}{\gdef\@doctype{Tesis de Licenciatura}}
 \newcommand{\department}[1]{\gdef\@department{(#1)}}
 
+%\if@msmargin    % Set Defaults based on Margin definition
+%   \gdef\@degree{Ingeniero Electricista}   % Default is MS
+%   \gdef\@doctype{Tesis de Licenciatura}   % Default is Thesis
+%\else
+%   \gdef\@degree{Maestro en Ingeniería \\
+%   con Especialidad en Sistemas de Potencia} %Default is PhD
+%   \gdef\@doctype{Tesis de Licenciatura}         %Default is dissertation
+%\fi
+
 \gdef\@department{Unidad Académica de Ingeniería 
-Eléctrica} 
+Eléctrica} % Default is Electrical Engineering
 
 \newcommand{\maketitle}{%
   \begin{titlepage}
+%-----------------------------------------------------------------------------
+% -- The thesis office doesn't like thanks on title page.  Put it in
+% -- the acknowledgments.  This is here so you don't have to change
+% -- your titlepage when converting from report style. -> from Purdue, but I
+%        left it here since it seems compatible with UW-Madison, Eric
+%-----------------------------------------------------------------------------
+    \def\thanks##1{\typeout{Warning: `thanks' deleted from thesis titlepage.}}
+    \let\footnotesize\small \let\footnoterule\relax \setcounter{page}{1}
+%    \vspace*{0.2in}
     \begin{center}
     {\Large\bf\expandafter\uppercase\expandafter{UNIVERSIDAD 
     AUTÓNOMA DE ZACATECAS}}\\
@@ -644,6 +732,7 @@ Eléctrica}
       para obtener el título de \\
      \vspace*{48pt}
       {\bf\expandafter\uppercase\expandafter{\@degree}} \\
+%       \\[\@thesistitlemedskip]
      \vspace*{48pt}
       \small{Directores de tesis: \\ 
       \@advisortitle\ \@advisorname\ y 
@@ -660,23 +749,301 @@ Eléctrica}
   \let\thanks\relax
   \let\maketitle\relax \let\degree\relax \let\project\relax \let\prelim\relax
   \let\department\relax
+%  \gdef\@thanks{}\gdef\@degree{}\gdef\@doctype{}
+%  \gdef\@department{}
+%  \gdef\@author{}\gdef\@title{}
 }
 
 %=============================================================================
-% RESUMEN (En español)
+% HOJA DE REVISION DE TEMA DE TESIS
 %=============================================================================
 
-\def\resumen{
+\def\dirtitle#1{\gdef\@dirtitle{#1}}
+\def\dirname#1{\gdef\@dirname{#1}}
+%\def\primrevtitle#1{\gdef\@primrevtitle{#1}}
+%\def\primrevname#1{\gdef\@primrevname{#1}}
+%\def\segrevtitle#1{\gdef\@segrevtitle{#1}}
+%\def\segrevname#1{\gdef\@segrevname{#1}}
+\def\fechasol#1{\gdef\@fechasol{#1}}
+\def\fecharev#1{\gdef\@fecharev{#1}}
+\def\carrera#1{\gdef\@carrera{#1}}
+\gdef\@primrevtitle{empty}
+\gdef\@primrevname{empty}
+\gdef\@segrevtitle{empty}
+\gdef\@segrevname{empty}
+\gdef\@fechasol{empty}
+\gdef\@fecharev{empty}
+\gdef\@carrera{empty}
+
+\def\revision{
+             \thispagestyle{empty}
+%                  \addtocounter{page}{-1}
+\begin{center}
+{\bf\expandafter\uppercase\expandafter{Aprobación de 
+tema de Tesis de Licenciatura}}\\
+\vspace*{12pt}
+      \begin{figure}[h!]
+      \centering
+      \includegraphics[width=1.4in]{escudo.png}\\
+      \end{figure}
+\end{center}
+%\vspace*{8pt}
+
+\@author
+
+PRESENTE
+\vspace*{18pt}
+
+De acuerdo a su solicitud de tema de \@doctype\ del Programa de
+\@carrera, con fecha \@fechasol, se acuerda asignarle el tema titulado:
+\vspace*{6pt}
+\begin{center}
+{\bf\expandafter\uppercase\expandafter{\@title}}
+\end{center}
+\vspace*{6pt}
+
+Se nombran revisores de Tesis a los profesores \@advisortitle\ \@advisorname\ 
+y \@gradoasesor2\ \@nombreasesor2, notificándole a usted que dispone de un plazo máximo de seis meses,
+a partir de la presente fecha, para la conclusión del documento final debidamente revisado. 
+
+\vspace*{48pt}
+
+\begin{center}
+Atentamente \\
+Zacatecas, Zac., \@fecharev \\
+%\vspace*{12pt}
+\vspace*{28pt}                       
+\underline{\makebox[2.8in][r]{}}\\                  
+\@dirtitle \hspace{3pt} \@dirname \\
+Director de la \@department
+\end{center}
+}
+
+\def\endrevision{\vfill \hfill\par\newpage}
+
+%=============================================================================
+% HOJA DE AUTORIZACION DE IMPRESION
+%=============================================================================
+
+\def\dirtitle#1{\gdef\@dirtitle{#1}}
+\def\dirname#1{\gdef\@dirname{#1}}
+\def\fechaaut#1{\gdef\@fechaaut{#1}}
+\gdef\@dirtitle{empty}
+\gdef\@dirname{empty}
+\gdef\@fechaaut{empty}
+\def\autorizacion{
+             \thispagestyle{empty}
+%                  \addtocounter{page}{-1}
+\begin{center}
+{\bf\expandafter\uppercase\expandafter{Autorización de 
+impresión de Tesis de Licenciatura}}\\
+\vspace*{12pt}
+      \begin{figure}[h]
+      \centering
+      \includegraphics[width=1.4in]{escudo.png}\\
+      \end{figure}
+\end{center}
+%\vspace*{8pt}
+
+\@author
+
+PRESENTE
+\vspace*{18pt}
+
+%\vspace{24pt}
+La Dirección de la \@department\ le notifica a usted que la Comisión 
+Revisora de su documento de \@doctype , integrada por los profesores 
+\@advisortitle\ \@advisorname\ y \@gradoasesor2\ \@nombreasesor2, ha concluido 
+la revisión del mismo y ha dado la aprobación para su respectiva presentación.\\
+
+Por lo anterior, se le autoriza a usted la impresión definitiva de su 
+documento de Tesis para la respectiva defensa en el Examen Profesional, a presentarse 
+el \@date 
+%\vspace{18pt}
+%\@author \\
+
+\vspace{60pt}
+
+\begin{center}
+Atentamente \\
+Zacatecas, Zac., \@fechaaut \\
+%\vspace*{12pt}
+\vspace*{28pt}                       
+\underline{\makebox[2.8in][r]{}}\\                  
+\@dirtitle \hspace{3pt} \@dirname \\
+Director de la \@department
+\end{center}
+}
+
+\def\endautorizacion{\vfill \hfill\par\newpage}
+
+%=============================================================================
+% HOJA DE APROBACION DE EXAMEN PROFESIONAL 
+%=============================================================================
+
+\def\prestitle#1{\gdef\@prestitle{#1}}
+\def\presname#1{\gdef\@presname{#1}}
+\def\vocalatitle#1{\gdef\@vocalatitle{#1}}
+\def\vocalaname#1{\gdef\@vocalaname{#1}}
+\def\vocalbtitle#1{\gdef\@vocalbtitle{#1}}
+\def\vocalbname#1{\gdef\@vocalbname{#1}}
+\def\vocalctitle#1{\gdef\@vocalctitle{#1}}
+\def\vocalcname#1{\gdef\@vocalcname{#1}}
+\def\vocaldtitle#1{\gdef\@vocaldtitle{#1}}
+\def\vocaldname#1{\gdef\@vocaldname{#1}}
+\gdef\@prestitle{empty}
+\gdef\@presname{empty}
+\gdef\@vocalatitle{empty}
+\gdef\@vocalaname{empty}
+\gdef\@vocalbtitle{empty}
+\gdef\@vocalbname{empty}
+\gdef\@vocalctitle{empty}
+\gdef\@vocalcname{empty}
+\gdef\@vocaldtitle{empty}
+\gdef\@vocaldname{empty}
+
+\def\aprobacion{
+             \thispagestyle{empty}
+%                  \addtocounter{page}{-1}
+\begin{center}
+{\bf\expandafter\uppercase\expandafter{Aprobación de 
+Examen Profesional}}\\
+\vspace*{12pt}
+      \begin{figure}[h]
+      \centering
+      \includegraphics[width=1.5in]{escudo.png}\\
+      \end{figure}
+      \vspace{12pt}
+\end{center}
+      
+Se aprueba por unanimidad el Examen Profesional de \@author\ 
+presentado el \@date\ para obtener el título de:
+                 
+\vspace{12pt}
+\begin{center}
+      {\bf\expandafter\uppercase\expandafter{\@degree}} \\
+                  \vspace{48pt}
+                  Jurado: \\
+                  \vspace{9pt} 
+            %Presidente \\           
+                \begin{flushright}
+                Presidente:~\@advisortitle\ \@advisorname \vspace{4pt} \underline{\makebox[2.2in][r]{}} ~~~~~~\\
+                \end{flushright} 
+                  \vspace{9pt}
+            %Primer vocal \\                  
+                \begin{flushright}                
+               Primer vocal:~\@gradoasesor2\ \@nombreasesor2 \vspace{4pt} \underline{\makebox[2.2in][r]{}} ~~~~~~\\
+                \end{flushright}
+                  \vspace{9pt}         
+            %Segundo vocal \\   
+                \begin{flushright}                          
+                 Segundo vocal:~\@vocalbtitle\ \@vocalbname \vspace{4pt} \underline{\makebox[2.2in][r]{}} ~~~~~~\\                  
+                \end{flushright}
+                  \vspace{9pt}
+            %Tercer vocal \\               
+                \begin{flushright}                
+                Tercer vocal:~\@vocalctitle\ \@vocalcname \vspace{4pt} \underline{\makebox[2.2in][r]{}} ~~~~~~\\                  
+                \end{flushright}                  
+                  \vspace{9pt}
+            %Cuarto vocal \\              
+            \begin{flushright}
+             Cuarto vocal:~\@vocaldtitle\ \@vocaldname \vspace{4pt} \underline{\makebox[2.2in][r]{}} ~~~~~~\\                                                           
+            \end{flushright}
+                \end{center}
+           }
+
+\def\endaprobacion{\vfill \hfill\par\newpage}
+
+%=============================================================================
+% RESUMEN (En español)
+% The ESP abstract should begin with the author and title in a standard format.
+% After the author comes the advisor and university. After these lines comes
+% a bunch of double spaced text to make up the standard abstract.
+% After the abstract, the advisor's approval signature follows.
+% This page is not numbered and is delivered seperately to the thesis office.
+%=============================================================================
+
+\def\advisortitle#1{\gdef\@advisortitle{#1}}
+\def\advisorname#1{\gdef\@advisorname{#1}}
+\gdef\@advisortitle{empty}
+\gdef\@advisorname{empty}
+
+\def\resumenespa{
 \addcontentsline{toc}{chapter}{Resumen}
              \thispagestyle{empty}
+%                  \addtocounter{page}{-1}
                 \begin{center}
+                  %{\bf\expandafter\uppercase\expandafter{\@title}}\\
+                  %\vspace{12pt}
+                  %\@author \\
+                  %\vspace{18pt}
+                  %Directores de tesis: \@advisortitle\ \@advisorname\ y
+                  %\@gradoasesor2\ \@nombreasesor2 \\
+                  %\vspace{24pt}
                   \expandafter\uppercase\expandafter{\bf{Resumen}}
                   \vspace{12pt}
                 \end{center}
 }
 
-\def\endresumen{\vfill \hfill\par\newpage}
+\def\endresumenespa{\vfill \hfill\par\newpage}
 
+%=============================================================================
+% ABSTRACT (Resumen en inglés)
+% The ENG abstract should begin with the author and title in a standard format.
+% After the author comes the advisor and university. After these lines comes
+% a bunch of double spaced text to make up the standard abstract.
+% After the abstract, the advisor's approval signature follows.
+% This page is not numbered and is delivered seperately to the thesis office.
+%=============================================================================
+
+%\def\advisortitle#1{\gdef\@advisortitle{#1}}
+%\def\advisorname#1{\gdef\@advisorname{#1}}
+%\gdef\@advisortitle{empty}
+%\gdef\@advisorname{empty}
+\def\englishtitle#1{\gdef\@englishtitle{#1}}
+\gdef\@englishtitle{empty}
+
+\def\resumeningles{
+\addcontentsline{toc}{chapter}{Abstract}
+             \thispagestyle{empty}
+%                  \addtocounter{page}{-1}
+                \begin{center}
+                  %{\bf\expandafter\uppercase\expandafter{\@englishtitle}}\\
+                  %\vspace{12pt}
+                  %\@author \\
+                  %\vspace{15pt}
+                  %Thesis supervisor: \@advisortitle\ \@advisorname \\
+                  %\vspace{25pt}
+                  \expandafter\uppercase\expandafter{\bf{Abstract}}
+                  \vspace{12pt}
+                \end{center}
+}
+\def\endresumeningl{\vfill \hfill\par\newpage}
+
+%=============================================================================
+% RESUMEN
+% The abstract should begin with two single-spaced lines describing
+% the author and title in a standard format.  After these lines comes
+% the standard abstract.
+%=============================================================================
+%\def\resumen{
+%  \chapter*{RESUMEN}
+%  \addcontentsline{toc}{chapter}{RESUMEN}
+%  \relax\markboth{RESUMEN}{RESUMEN}}
+%\def\endresumen{\par\newpage}
+%
+%=============================================================================
+% ABSTRACT
+% El abstract debe comenzar con dos renglones a espacio sencillo describiendo
+% al título, y autor.  After these lines comes
+% the standard abstract.
+%=============================================================================
+%\def\abstract{
+%  \chapter*{Abstract}
+%  \addcontentsline{toc}{chapter}{Abstract}
+%  \relax\markboth{Abstract}{Abstract}}
+%\def\endabstract{\par\newpage}
+%
 %=============================================================================
 % PAGE STYLES
 %=============================================================================
@@ -979,6 +1346,22 @@ Eléctrica}
 %       to look different from chapter titles and headings.
 %    -- produce special toc, lot and lof entries
 %=============================================================================
+%\def\appendix{
+%  \@appendix{Apéndice}
+%  \def\@chapstyle{appendix}
+%  \def\@chapnumber{Apéndice}
+%  \let\@chapterhead\@appendixchapterhead
+%  \let\@schapterhead\@appendixchapterhead}
+%\def\endappendix{
+%  \def\@chaptername##1{\uppercase {##1}}
+%  \def\@chapstyle{chapter}
+%  \def\@chapnumber{\thechapter.}
+%  \let\@chapterhead\@makechapterhead
+%  \let\@schapterhead\@makeschapterhead}
+
+%\def\l@appendix#1#2{\pagebreak[3]
+%  \vskip\@tocchapterskip % space above chapter line
+%  \@dottedtocline{0}{0pt}{7.3em}{{\bface #1}}{#2}}
 
 \def\apendices{
   \addtocontents{toc}{
@@ -991,7 +1374,12 @@ Eléctrica}
   \def\@chapnumber{Apéndice\ \thechapter:}
   \let\@chapterhead\@appendiceschapterhead
   \let\@schapterhead\@apendiceschapterhead
-  \if@bibpresent\relax \else \separatorpage{}\fi
+  \if@bibpresent\relax \else \separatorpage{}\fi % This
+  % is a dirty fix.  For some reason, the TOC isn't
+  % properly written unless the simple chapter with
+  % sections is written.  The bibliography fixes this
+  % problem when its present.  If its not, then the
+  % seperator page is inserted to fix things.  EB
 }
 
 \let\endapendices\endappendix
@@ -1021,8 +1409,27 @@ Eléctrica}
   \def\thechapter{\Alph{chapter}}
   \@lotheading
   \@lofheading
-
+  %\separatorpage{\uppercase{#1}} 
+  % UW doesn't require a seperator page - EB
 }
+
+%=============================================================================
+% COPYRIGHTPAGE
+%=============================================================================
+% El ambiente copyright hace lo siguiente:
+% - inicia una nueva página sin número de página
+% - coloca el texto de copyright ten la parte de abajo.
+%=============================================================================
+%\def\copyrightpage{
+%  \newpage
+%  \thispagestyle{empty}      % Sin número de página
+%  \addtocounter{page}{-1}
+%  \chapter*{}                % Requiredo para que trabaje \vfill
+%  \begin{center}
+%   \vfill
+%   \copyright\ Copyright de \@author\ \@date\\
+%   Derechos reservados
+%  \end{center}}
 
 %=============================================================================
 % GLOSARIO
@@ -1063,6 +1470,20 @@ Eléctrica}
 \def\endlistofsymbols{\par\newpage}
 
 %=============================================================================
+% CURRICULUM VITAE
+%=============================================================================
+% El ambiente vita hace lo siguiente:
+% - genera espacio en el índice de Contenidos para Curriculum Vitae
+% - comienza una nueva página con el encabezado Curriculum Vitae
+%   (2" abajo del márgen superior) y el texto correspondiente
+%=============================================================================
+%\def\vita{
+%  \separatorpage{Curriculum Vitae}         % UW doesn't require this EB
+%  \chapter*{Curriculum Vitae}
+%  \addcontentsline{toc}{chapter}{Curriculum Vitae}}
+%\def\endvita{\par\newpage}
+
+%=============================================================================
 % DEDICATORIA
 %=============================================================================
 % El ambiente dedicatoria hace lo siguiente: 
@@ -1089,6 +1510,24 @@ Eléctrica}
   \doublespace}
 \def\endaagradecimientos{\par\newpage}
 
+%=============================================================================
+% FECHAS
+%=============================================================================
+%\def\today{\ifcase\month\or
+  %January\or February\or March\or April\or May\or June\or
+  %July\or August\or September\or October\or November\or December\fi
+  %\space\number\day, \number\year}
+\newcount\@testday
+\def\today{\@testday=\day
+  \ifnum\@testday>30 \advance\@testday by -30
+  \else\ifnum\@testday>20 \advance\@testday by -20
+  \fi\fi
+  \number\day\ \
+  \ifcase\month\or
+    January \or February \or March \or April \or May \or June \or
+    July \or August \or September \or October \or November \or December
+    \fi\ \number\year
+}
 
 %  Single counter for theorems and theorem-like environments:
 \newtheorem{theorem}{Theorem}[chapter]
