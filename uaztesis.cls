@@ -671,12 +671,16 @@ sorting=nyt
 %=============================================================================
 \def\advisortitle#1{\gdef\@advisortitle{#1}}
 \def\advisorname#1{\gdef\@advisorname{#1}}
-\gdef\@advisortitle{empty}
-\gdef\@advisorname{empty}
-\def\gradoasesor2#1{\gdef\@gradoasesor2{#1}}
-\def\nombreasesor2#1{\gdef\@nombreasesor2{#1}}
-\gdef\@gradoasesor2{empty}
-\gdef\@nombreasesor2{empty}
+\gdef\@advisortitle{}
+\gdef\@advisorname{}
+\def\gradosegundoasesor#1{\gdef\@gradosegundoasesor{#1}}
+\def\nombresegundoasesor#1{\gdef\@nombresegundoasesor{#1}}
+\gdef\@gradosegundoasesor{}
+\gdef\@nombresegundoasesor{}
+\def\gradotercerasesor#1{\gdef\@gradotercerasesor{#1}}
+\def\nombretercerasesor#1{\gdef\@nombretercerasesor{#1}}
+\gdef\@gradotercerasesor{}
+\gdef\@nombretercerasesor{}
 \newcommand\@thesistitlemedskip{0.25in}
 \newcommand\@thesistitlebigskip{0.6in}
 \newcommand{\degree}[1]{\gdef\@degree{#1}}
@@ -711,8 +715,9 @@ Eléctrica}
       {\bf\expandafter\uppercase\expandafter{\@degree}} \\
      \vspace*{48pt}
       \small{Directores de tesis: \\ 
-      \@advisortitle\ \@advisorname\ y 
-      \@gradoasesor2\ \@nombreasesor2}\\
+      \@advisortitle\ \@advisorname , 
+      \@gradosegundoasesor\ \@nombresegundoasesor\ y 
+      \@gradotercerasesor\ \@nombretercerasesor}\\
      \vspace*{36pt}     
    
       \small{UNIDAD ACADÉMICA DE INGENIERÍA ELÉCTRICA \\
