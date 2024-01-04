@@ -386,7 +386,7 @@ sorting=nyt
   \chapter*{#1}
   #5
   \relax\markboth{#1}{#1}
-  \hbox to \hsize{#2 \hfil Pag.}
+  \hbox to \hsize{#2 \hfil Pág.}
   \singlespace
   \setcounter{#3}{0}
   \setcounter{listofheading}{1}  % change from 0 to 1 by mccauley, 14may93
@@ -397,7 +397,7 @@ sorting=nyt
 %        \hbox to \hsize{Apéndice\hfil} \vspace{4pt} \fi
       \ifnum\value{listofheading}=1
         \stepcounter{listofheading} \fi
-      \hbox to \hsize{#2 \hfil Pag.}
+      \hbox to \hsize{#2 \hfil Pág.}
     \else
       \setcounter{#3}{1}
     \fi}}
@@ -408,7 +408,7 @@ sorting=nyt
 %        \hbox to \hsize{Apéndice\hfil} \vspace{4pt} \fi
       \ifnum\value{listofheading}=1
         \stepcounter{listofheading} \fi
-      \hbox to \hsize{#2 \hfil Pag.}
+      \hbox to \hsize{#2 \hfil Pág.}
     \else
       \setcounter{#3}{1}
     \fi}}
