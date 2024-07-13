@@ -50,9 +50,9 @@ sorting=nyt
 
 %=============================================================================
 % Impresión a uno o dos lados de la página 
-% \@twosidefalse                      % Default es a una página.
+%\@twosidefalse                      % Default es a una página.
 %=============================================================================
-\DeclareOption{twoside}{\@twosidetrue % Define opción a ambos lados
+\DeclareOption{twoside}{\@twosidefalse % Define opción a una página
            \@mparswitchtrue}          % Marginpars rebazan los márgenes de la página
 
 %=============================================================================
