@@ -27,6 +27,7 @@
 \usepackage{chngcntr}
 \usepackage{minted}
 \usepackage{csquotes}
+\usepackage{pdfpages}
 
 \renewcommand\listingscaption{C\'odigo}
 \numberwithin{listing}{chapter}
@@ -74,18 +75,23 @@
 
 % % Genera página de presentación
  \maketitle
+% % Se incluyen los documentos de parte del posgrado
 
-% % Genera páginas de resumen
+\includepdf[pages=-]{Adjuntos/autorizaciontesis.pdf}
+\includepdf[pages=-]{Adjuntos/cesionderechostesis.pdf}
+\includepdf[pages=-,scale=0.85]{Adjuntos/cartadesimilitud.pdf}
+
+ % % Genera páginas de resumen
 \begin{resumen}
   \input{01_Resumen.tex}          
 \end{resumen}
 
-% % Genera página de dedicatoria (opcional)
+% % Genera página de dedicatoria
 \begin{dedicatoria}
   \input{02_Dedicatoria}          
 \end{dedicatoria}
 
- % Genera página de agradecimientos (opcional)
+ % Genera página de agradecimientos
 \begin{agradecimientos}
   \input{03_Agradecimientos}        
 \end{agradecimientos}

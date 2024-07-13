@@ -697,29 +697,28 @@ Eléctrica}
     \begin{center}
     {\Large\bf\expandafter\uppercase\expandafter{UNIVERSIDAD 
     AUTÓNOMA DE ZACATECAS}}\\
-     \vspace*{12pt}
+      \vspace*{24pt}
       \begin{figure}[h]
       \centering
       \includegraphics[width=1.7in]{UAZ}\\
       \end{figure}
-     \vspace*{36pt}
+      \vspace*{15pt}
       {\bf\expandafter\uppercase\expandafter{\@title}} \\  
-     \vspace*{12pt}
+      \vspace*{24pt}
       {\bf\@author} \\ 
-     \vspace*{48pt}
+      \vspace*{40pt}
       \@doctype\ \\
       presentada a la \@department \\
       de acuerdo a los requerimientos de la Universidad 
       para obtener el título de \\
-     \vspace*{48pt}
+      \vspace*{48pt}
       {\bf\expandafter\uppercase\expandafter{\@degree}} \\
-     \vspace*{48pt}
+      \vspace*{48pt}
       \small{Directores de tesis: \\ 
       \@advisortitle\ \@advisorname , 
       \@gradosegundoasesor\ \@nombresegundoasesor\ y 
       \@gradotercerasesor\ \@nombretercerasesor}\\
-     \vspace*{36pt}     
-   
+      \vfill    
       \small{UNIDAD ACADÉMICA DE INGENIERÍA ELÉCTRICA \\
       \vspace*{8pt}
       Zacatecas, Zac.,} \@date \\
@@ -740,12 +739,13 @@ Eléctrica}
 \addcontentsline{toc}{chapter}{Resumen}
              \thispagestyle{empty}
                 \begin{center}
-                  \expandafter\uppercase\expandafter{\bf{Resumen}}
+                  \expandafter\uppercase\expandafter{\Large\bf{Resumen}}
                   \vspace{12pt}
                 \end{center}
 }
 
 \def\endresumen{\vfill \hfill\par\newpage}
+
 %=============================================================================
 % PAGE STYLES
 %=============================================================================
@@ -1194,11 +1194,9 @@ Eléctrica}
 % - coloca el texto en ambiente centrado
 %=============================================================================
 \def\dedicatoria{
-  \newpage
-  \null\vfil
-  \begin{center}}
-\def\enddedicatoria{\end{center}\par\vfil\newpage}
-
+  \chapter*{Dedicatoria}
+  \doublespace}
+\def\endadedicatoria{\par\newpage}
 %=============================================================================
 % AGRADECIMIENTOS
 %=============================================================================
