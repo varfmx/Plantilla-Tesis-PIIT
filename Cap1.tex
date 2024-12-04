@@ -1,134 +1,106 @@
 \chapter{Introducción}
 
-La introducción de una tesis es fundamental porque presenta el tema, los objetivos y la relevancia de la investigación.
+Las comunicaciones móviles son omnipresentes en nuestra vida diaria. En la actualidad prácticamente cualquier dispositivo tiene la habilidad de enviar y recibir datos de manera inalámbrica, ya sea una computadora, dispositivos móviles (como tabletas o teléfonos celulares), vehículos o incluso electrodomésticos. Además existe una categoría de pequeños dispositivos remotos equipados con sensores para monitorear diversos parámetros físicos, los cuales también dependen de las comunicaciones inalámbricas. Estos últimos dispositivos forman parte del Internet de las Cosas o IoT (siglas en inglés de \textit{Internet of Things}).
 
-Para ello se comienza con el Contexto y Antecedentes:
+\vspace{0.5cm}
 
-\begin{enumerate}
-    \item Proporciona una visión general del tema de estudio.
-    \item Explica por qué este tema es importante y relevante.
-    \item Resalta los antecedentes históricos o teóricos necesarios para entender el problema de investigación.
-\end{enumerate}
+Los dispositivos IoT conectados a sensores generalmente operan bajo restricciones de consumo de energía ya que suelen estar alimentados por baterías. Además, estos dispositivos típicamente transmiten pequeñas cantidades de datos a intervalos regulares por lo que requieren una tasa de bits muy baja para su comunicación. Por esta razón, la selección adecuada de la tecnología inalámbrica es esencial para garantizar el rendimiento óptimo de los dispositivos IoT.\par
+
+\vspace{0.5cm}
+
+Un factor diferenciador entre dispositivos IoT con características de hardware similares radica principalmente en la implementación del software que lo conforma. Un elemento clave en este aspecto es el uso de un sistema operativo en tiempo real (RTOS, siglas en inglés de \textit{Real Time Operating System}). La incorporación de un RTOS no solo mejora la estabilidad del dispositivo, sino que también permite una administración eficiente de múltiples tareas y una respuesta rápida a eventos en tiempo real.
+
+\vspace{0.5cm}
+
+Un nodo de comunicaciones es un elemento básico en una red IoT, ya que es el dispositivo físico el que recopila información de su entorno, lo procesa y lo envía a una plataforma central o a otros dispositivos. Un nodo de comunicación LoRaWAN (siglas en inglés de \textit{Long Range Wide Area Network})  es un dispositivo que utiliza la tecnología LoRa (siglas en inglés de \textit{Long Range}) para transmitir y recibir datos a largas distancias de manera eficiente con bajo consumo de energía.
+
+\vspace{0.5cm}
+
+Este proyecto consiste en el desarrollo de un nodo de comunicación LoRaWAN  de bajo consumo, utilizando el microcontrolador ESP32 y el módulo de radio LoRa RFM9x en el sistema operativo en tiempo real FreeRTOS, basado en el framework ESP-IDF (siglas en inglés de \textit{Espressif IoT Development Framework}) para su implementación en TTN (siglas en inglés de \textit{The Things Network}).
 
 \section{Planteamiento del problema}
 
-\begin{enumerate}
-    \item Define claramente el problema específico que tu investigación abordará.
-    \item Explica las brechas en el conocimiento existente que tu estudio pretende llenar.
-    \item Justifica la necesidad de investigar este problema.
-\end{enumerate}
+La tecnología LoRaWAN ha demostrado ser altamente eficiente en la creación de redes de largo alcance y de bajo consumo de energía, su uso en combinación con RTOS permite la gestión de tareas en tiempo real donde se requiere priorizar eventos críticos para el manejo de prioridades, concurrencia y comunicación entre tareas.
+
+\vspace{0.5cm}
+
+En este sentido surgen algunas preguntas para implementar el módulo de radio LoRa RFM9x en un microcontrolador ESP32 usando FreeRTOS: ¿Qué se necesita para usar el módulo de radio RFM9x en un microcontrolador ESP32 con FreeRTOS? Si no hay soporte nativo del módulo de radio RFM9x para el ESP-IDF, ¿qué se requiere hacer?
 
 \section{Hipótesis}
 
-\begin{enumerate}
-    \item En investigaciones cuantitativas, enuncia las hipótesis que serán probadas.
-    \item Explica brevemente cómo se probarán estas hipótesis.
-\end{enumerate}
+El desarrollo de un driver para el módulo de radio RFM9x, compatible con ESP-IDF y FreeRTOS, permitirá establecer una comunicación inalámbrica de bajo consumo y largo alcance en nodos ESP32 para la red TTN.
 
 \section{Justificación}
 
-\begin{enumerate}
-    \item Explica por qué tu investigación es importante.
-    \item Destaca la relevancia académica, social, económica, o práctica del estudio.
-    \item Menciona quiénes se beneficiarán de los hallazgos de tu investigación.
-\end{enumerate}
+El creciente desarrollo en redes de comunicación IoT ha impulsado la necesidad de tener soluciones eficientes y de bajo costo que permitan la transmisión de datos a largas distancias con un consumo de energía mínimo. Lo anterior supone un gran desafío, sin embargo, el uso de tecnologías como LoRaWAN permiten lograrlo con una infraestructura simple de telecomunicaciones.
+
+\vspace{0.5cm}
+
+El desarrollo de nodos de comunicación eficientes y confiables que integren hardware y software optimizados para esta tarea sigue siendo un reto. Aunque ya existen soluciones que implementen un RTOS en un nodo LoRaWAN, el uso del módulo RFM9x que se encuentra ampliamente disponible permite construir nodos IoT con dispositivos que están al alcance de cualquier persona. 
 
 \section{Objetivos}
 
 \subsection{Objetivo general}
 
-Presenta el propósito principal de tu estudio.
+Desarrollar un nodo de comunicación LoRaWAN basado en el microcontrolador ESP32 y el módulo de radio LoRa RFM9x que junto con el sistema operativo en tiempo real FreeRTOS permita su integración en una red TTN.
+
 
 \subsection{Objetivos particulares}
 
-Detalla los pasos específicos que tomarás para alcanzar el objetivo general.
+\begin{itemize}
+   \item Desarrollar una biblioteca de funciones para el manejo del módulo RFM9x para su uso en el entorno ESP-IDF, incluyendo funciones para configuración, transmisión y recepción de datos.
+   \item Desarrollar un prototipo de laboratorio para una comunicación punto a punto y su integración a la red TTN.
+\end{itemize}
+
 
 \section{Alcances y limitaciones}
 
-\begin{enumerate}
-    \item Define los límites de tu investigación en términos de tiempo, espacio, y alcance.
-    \item Especifica qué aspectos del tema no serán cubiertos y por qué.
-    \item Discusión sobre las limitaciones del estudio y su impacto en los resultados.
-    \item Definición del alcance del trabajo y lo que no se abordará en la investigación.
+\subsection{Alcances}
 
-\end{enumerate}
+\begin{itemize}
+   \item Desarrollar el nodo LoRaWAN utilizando el microcontrolador ESP32 y el sistema operativo FreeRTOS.
+\end{itemize}
+
+
+\subsection{Limitaciones}
+
+\begin{itemize}
+   \item El proyecto se centra en el desarrollo de un nodo LoRaWAN, no en la implementación de una red LoRaWAN completa.
+   \item No se incluye el desarrollo de aplicaciones de alto nivel para procesamiento de datos.
+   \item El proyecto se limita al uso del microcontrolador ESP32 y el módulo de radio RFM9x. No se consideran otras opciones de hardware.
+   \item Se utiliza el sistema operativo FreeRTOS, no se exploran otras opciones de RTOS.
+    \item Las pruebas se realizarán en un entorno controlado, sin considerar interferencias externas o condiciones ambientales extremas.
+\end{itemize}
+
 
 \section{Metodología}
 
-La metodología de la tesis sigue principios similares a los de otras disciplinas, pero tiende a ser más técnica y específica, ya que a menudo implica la creación de prototipos, experimentos, análisis de datos técnicos, simulaciones, y modelos matemáticos.
-
-Componentes de la Metodología de la tesis:
+Procedimiento para el desarrollo del driver para el RFM9x:
 
 \begin{enumerate}
-    \item Enfoque de Investigación:
-    \begin{enumerate}
-        \item Teórico: Desarrollo de modelos matemáticos, simulaciones, o análisis teóricos.
-        \item Experimental: Diseño y realización de experimentos para probar hipótesis o validar modelos.
-        \item Desarrollo de Prototipos: Creación y evaluación de prototipos o sistemas.
-        \item Mixto: Combinación de enfoques teóricos y experimentales.
-    \end{enumerate}
-    \item Diseño del Estudio:
-    \begin{enumerate}
-        \item Descripción del tipo de estudio (descriptivo, explicativo, experimental, de desarrollo de tecnología, etc.).
-        \item Explicación de cómo se estructurará la investigación para abordar el problema planteado.
-    \end{enumerate}
-    \item Desarrollo de la Solución:
-    \begin{enumerate}
-        \item Análisis de Requisitos: Identificación y especificación de los requisitos del sistema o solución.
-        \item Diseño del Sistema o Prototipo: Detalle del diseño conceptual y detallado, incluyendo diagramas, planos, o esquemas.
-        \item Implementación: Descripción de los pasos para construir el prototipo o sistema, incluyendo materiales y herramientas utilizadas.
-    \end{enumerate}
-    \item Metodología Experimental:
-    \begin{enumerate}
-        \item Variables y Parámetros: Identificación de las variables independientes y dependientes, así como los parámetros de control.
-        \item Procedimiento Experimental: Descripción detallada de cómo se llevarán a cabo los experimentos, incluyendo equipos y técnicas.
-        \item Recolección de Datos: Métodos para recolectar datos, como sensores, instrumentos de medición, software de monitoreo, etc.
-    \end{enumerate}
-    \item Simulación y Modelado (si aplica):
-    \begin{enumerate}
-        \item Modelos Matemáticos: Descripción de los modelos matemáticos utilizados para representar el sistema o fenómeno.
-        \item Herramientas de Simulación: Software y herramientas utilizadas para realizar simulaciones (MATLAB, ANSYS, etc.).
-        \item Validación del Modelo: Métodos para validar los modelos, como comparación con datos experimentales.
-    \end{enumerate}
-    \item Análisis de Datos:
-    \begin{enumerate}
-        \item Técnicas y herramientas utilizadas para analizar los datos recolectados.
-        \item Métodos estadísticos, gráficos y de visualización de datos.
-        \item Evaluación del rendimiento del sistema o prototipo.
-    \end{enumerate}
-    \item Consideraciones Éticas y de Seguridad:
-    \begin{enumerate}
-        \item Descripción de las prácticas éticas y de seguridad aplicadas durante la investigación.
-        \item Medidas para garantizar la seguridad de los experimentos y el cumplimiento de normas éticas.
-    \end{enumerate}
+    \item Familiarización con el entorno de desarrollo ESP-IDF. \\
+    Iniciar con la instalación y configuración del entorno de desarrollo ESP-IDF para el microcontrolador ESP32, asegurando el conocimiento básico de sus herramientas y componentes.
+    \item Comprensión del protocolo de comunicación SPI. \\
+    Estudiar la implementación de la comunicación mediante el protocolo SPI (siglas en inglés de Serial Peripheral Interface) en el ESP32, ya que será el protocolo de comunicación con el módulo RFM9x.
+    \item Análisis del driver disponible en otras plataformas de desarollo sobre el RFM9x. \\
+    Revisar y analizar el código fuente del driver para el módulo RFM9x disponible otras plataformas, proporcionado por Espressif. Este código servirá como referencia para comprender los elementos básicos de la comunicación con el módulo de radio.
+    \item Estudio de la hoja de datos del RFM9x. \\
+    Examinar la hoja de datos del RFM9x, enfocándose en escribir registros a través de SPI, y en los parámetros específicos necesarios para la configuración e inicialización del módulo.
+    \item Desarrollo del código básico de lectura y escritura de registros. \\
+    Implementar código en ESP-IDF que permita la lectura y escritura de registros en el RFM9x utilizando SPI.
+    \item Análisis de la transmisión de datos. \\
+    Estudiar el capítulo de transmisión de datos en la hoja de datos del RFM9x para comprender los registros implicados en el proceso de envío y recepción de datos.
+    \item Desarrollo del pseudocódigo para la transmisión. \\
+    Crear un pseudocódigo que detalle el flujo de la transmisión de datos, identificando los registros de lectura y escritura para lograr una transmisión exitosa.
+    \item Desarrollo del código de transmisión y recepción. \\
+    Implementar el código en C utilizando ESP-IDF para la transmisión y recepción de datos a través del módulo de radio RFM9x.
+    \item Verificación y pruebas del código. \\
+    Desarrollar un proceso de lectura continua de registros para asegurar que los datos se escriben correctamente en el registro correspondiente, evitando errores de comunicación.
+    \item Iteración y optimización del código. \\
+    Realizar pruebas iterativas para mejorar y optimizar el código del driver. Cada ciclo de prueba proporcionará retroalimentación para corregir errores y mejorar el rendimiento, hasta obtener un driver funcional y eficiente.
+    \item Prototipo de laboratorio. \\
+    Desarrollar un prototipo de laboratorio para probar la comunicación punto a punto entre dos nodos usando LoRa.
+    \item Implementación del stack LoRaWAN (TTN). \\
+    Una vez funcional el driver, se procederá a la integración con el stack LoRaWAN mediante la librería ttn-esp32, para implementar un nodo LoRaWAN que pueda conectarse a la red TTN.
 \end{enumerate}
-
-        
-
-    
-        
-        
-
-    
-    
-        
-
-    
-        
-        
-
-    
-
-
-
-
-
-
-
-
-  
-
-
-
-
 

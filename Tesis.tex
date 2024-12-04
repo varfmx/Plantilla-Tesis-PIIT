@@ -47,8 +47,8 @@
 
 \begin{document}
 
-%\thesism % Tesis de maestria
-\thesisd % Tesis de doctorado
+\thesism % Tesis de maestria
+%\thesisd % Tesis de doctorado
 %\thesis % Tesis licenciatura
 %\degree{Ingeniero en Robótica y Mecatrónica} % Solo para licenciatura
 
@@ -61,13 +61,14 @@
 % % ------------------INTRODUCCIÓN DE DATOS----------------------------
 
 % % Título de la tesis, autor, y grado a recibir:
-\title{Título de la tesis} 
-\author{Estudiante}
+    \title{Desarrollo de nodo de comunicación LoRaWAN con ESP32 \\ y FreeRTOS usando el módulo de radio RFM9x}
+\author{Fernando Valderrábano Reyes}
 
 % % Grado y nombre de asesores de tesis:
-\advisortitle{Grado} \advisorname{Asesor} 
-\gradosegundoasesor{Grado} \nombresegundoasesor{Asesor}
-\gradotercerasesor{Grado} \nombretercerasesor{Asesor}
+\advisortitle{Dr.} \advisorname{Víktor Iván Rodríguez Abdalá}
+\gradosegundoasesor{Dr.} \nombresegundoasesor{Héctor Alonso Guerrero Osuna}
+\gradotercerasesor{Dr.} \nombretercerasesor{Salvador Ibarra Delgado}
+
 
 \date{\the\year{}}
 
@@ -83,23 +84,23 @@
 
  % % Genera páginas de resumen
 \begin{resumen}
-  \input{01_Resumen.tex}          
+  \input{01_Resumen.tex}
 \end{resumen}
 
 % % Genera página de dedicatoria
 \begin{dedicatoria}
-  \input{02_Dedicatoria}          
+  \input{02_Dedicatoria}
 \end{dedicatoria}
 
  % Genera página de agradecimientos
 \begin{agradecimientos}
-  \input{03_Agradecimientos}        
+  \input{03_Agradecimientos}
 \end{agradecimientos}
 
 % % Genera páginas del contenido general y lista de figuras y tablas
 \tableofcontents
-\listoffigures                 
-\listoftables                  
+\listoffigures
+\listoftables
 
 \begin{nomenclatura}
     \input{04_Nomenclatura}
@@ -128,7 +129,7 @@
 % % ------------------INTRODUCCIÓN DE REFERENCIAS---------------------
 
 \nocite{*}
-\chapter*{Referencias bibliográficas}     
+\chapter*{Referencias bibliográficas}
 \addcontentsline{toc}{chapter}{Referencias bibliográficas}
 \printbibliography[heading=none]
 
